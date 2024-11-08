@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Excel File</title>
+</head>
+
+<body>
+    <form id="excelUploadForm" enctype="multipart/form-data">
+        <input type="file" name="excelFile" accept=".xlsx, .xls">
+        <button type="submit">Upload</button>
+    </form>
+    <p id="message"></p>
+    <script>
+        const form = document.getElementById('excelUploadForm');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    message.textContent = 'File uploaded successfully.';
+                } else {
+                    message.textContent = 'File upload failed.';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>
